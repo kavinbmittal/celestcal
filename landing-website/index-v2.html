@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CelestCal — cycle-synced calorie tracking for women</title>
+    <meta name="description" content="finally, a tracker that gets hungrier when you do. celestcal adjusts your calorie target to your menstrual cycle baby">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        'warm-ivory': '#F5F3EF',
+                        'soft-terracotta': '#D4876F',
+                        'warm-beige': '#E8DDD3',
+                        'soft-charcoal': '#3A3A3A',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Shooting stars background */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f1419 100%);
+        }
+        
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+            opacity: 0;
+            animation: shoot 1.2s ease-out forwards;
+        }
+        
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translateX(-250px) translateY(250px); opacity: 0; }
+        }
+        
+        .star-dot {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+        }
+        
+        /* Smooth scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* iPhone mockup float animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .phone-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #D4876F 0%, #E8A698 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Premium card glow */
+        .premium-glow {
+            box-shadow: 0 0 40px rgba(212, 135, 111, 0.15);
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Hero gradient overlay */
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(26,26,46,0.7) 0%, rgba(245,243,239,1) 100%);
+        }
+    </style>
+</head>
+<body class="font-sans text-soft-charcoal bg-warm-ivory">
+    
+    <!-- Hero Section with Shooting Stars -->
+    <section class="relative min-h-screen overflow-hidden">
+        <!-- Shooting stars background -->
+        <div class="stars-container" id="stars"></div>
+        
+        <!-- Gradient overlay for smooth transition -->
+        <div class="hero-gradient absolute inset-0 z-10"></div>
+        
+        <!-- Hero content -->
+        <div class="relative z-20 container mx-auto px-6 pt-20 pb-32">
+            <div class="grid lg:grid-cols-2 gap-16 items-center min-h-screen">
+                
+                <!-- Left: Copy -->
+                <div class="text-white lg:text-left text-center reveal">
+                    <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        finally, a tracker<br>that gets hungrier<br>when you do
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+                        celestcal adjusts your calorie target to your menstrual cycle.<br>
+                        because your metabolism isn't static baby
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#pricing" class="bg-soft-terracotta hover:bg-opacity-90 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                            start free trial ✨
+                        </a>
+                        <a href="#features" class="border-2 border-white text-white hover:bg-white hover:text-soft-charcoal px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300">
+                            see how it works
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Right: iPhone Mockup -->
+                <div class="relative reveal phone-float">
+                    <div class="relative mx-auto w-[300px] md:w-[350px]">
+                        <!-- iPhone frame placeholder -->
+                        <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-[3rem] p-3 shadow-2xl">
+                            <div class="bg-warm-ivory rounded-[2.5rem] overflow-hidden">
+                                <!-- Phone screen content -->
+                                <div class="relative h-[600px] md:h-[700px] bg-gradient-to-b from-purple-50 to-warm-ivory p-6">
+                                    <!-- Status bar -->
+                                    <div class="flex justify-between items-center mb-8 text-xs text-gray-600">
+                                        <span>9:41</span>
+                                        <div class="flex gap-1">
+                                            <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                                            <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                                            <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Notification card (the money shot) -->
+                                    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6 animate-pulse-subtle">
+                                        <div class="flex items-center gap-3 mb-4">
+                                            <div class="text-3xl">🌙</div>
+                                            <div>
+                                                <p class="font-semibold text-soft-charcoal">luteal phase alert!</p>
+                                                <p class="text-xs text-gray-500">just now</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm leading-relaxed text-soft-charcoal">
+                                            bumped your target by <span class="font-bold text-soft-terracotta">200 kcal</span>. your body's running hotter this week — extra hunger is totally expected baby 🔥
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Mini dashboard -->
+                                    <div class="space-y-4">
+                                        <div class="bg-white rounded-xl p-4 shadow">
+                                            <p class="text-xs text-gray-500 mb-1">today's target</p>
+                                            <p class="text-2xl font-bold text-soft-terracotta">2,150 kcal</p>
+                                            <p class="text-xs text-gray-600 mt-1">+200 from luteal phase</p>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl p-4 shadow">
+                                            <p class="text-xs text-gray-500 mb-2">logged today</p>
+                                            <div class="flex gap-2">
+                                                <div class="h-2 flex-1 bg-soft-terracotta rounded"></div>
+                                                <div class="h-2 flex-1 bg-gray-200 rounded"></div>
+                                            </div>
+                                            <p class="text-xs text-gray-600 mt-2">1,240 / 2,150 kcal</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Problem Section -->
+    <section class="py-24 px-6 bg-warm-ivory">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl md:text-6xl font-bold mb-6 text-soft-charcoal">
+                    you're not failing.<br>
+                    <span class="gradient-text">your body is changing.</span>
+                </h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <!-- Left: Copy -->
+                <div class="reveal space-y-6 text-lg leading-relaxed">
+                    <p>you eat well for three weeks. then the week before your period?? you're STARVING. you "blow" your streak. you feel like you lack willpower.</p>
+                    
+                    <p class="text-xl font-semibold text-soft-terracotta">
+                        here's the truth: your metabolism increases by 10-20% during luteal phase.
+                    </p>
+                    
+                    <p>that's BIOLOGY, not failure baby.</p>
+                    
+                    <p>most calorie trackers treat your body like a static number. celestcal doesn't.</p>
+                </div>
+                
+                <!-- Right: TDEE Graph Animation -->
+                <div class="reveal">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl">
+                        <h3 class="font-semibold mb-6 text-soft-charcoal">your metabolism throughout your cycle</h3>
+                        
+                        <!-- Simple graph visualization -->
+                        <div class="relative h-64">
+                            <svg class="w-full h-full" viewBox="0 0 400 200">
+                                <!-- Grid lines -->
+                                <line x1="0" y1="100" x2="400" y2="100" stroke="#E8DDD3" stroke-width="1"/>
+                                <line x1="0" y1="50" x2="400" y2="50" stroke="#E8DDD3" stroke-width="1" stroke-dasharray="4"/>
+                                <line x1="0" y1="150" x2="400" y2="150" stroke="#E8DDD3" stroke-width="1" stroke-dasharray="4"/>
+                                
+                                <!-- TDEE curve -->
+                                <path d="M 0,100 Q 100,100 100,100 T 200,70 Q 300,70 300,100 T 400,100" 
+                                      fill="none" 
+                                      stroke="#D4876F" 
+                                      stroke-width="3"
+                                      class="animate-draw"/>
+                                
+                                <!-- Highlight luteal spike -->
+                                <circle cx="200" cy="70" r="6" fill="#D4876F"/>
+                                <text x="200" y="50" text-anchor="middle" class="text-xs fill-soft-terracotta font-semibold">
+                                    +20% 🔥
+                                </text>
+                                
+                                <!-- Phase labels -->
+                                <text x="50" y="190" class="text-xs fill-gray-500">follicular</text>
+                                <text x="200" y="190" class="text-xs fill-soft-terracotta font-semibold">luteal</text>
+                                <text x="350" y="190" class="text-xs fill-gray-500">period</text>
+                            </svg>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mt-4 text-center">
+                            your body literally demands more fuel before your period. celestcal adjusts automatically.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Generate shooting stars background
+        const starsContainer = document.getElementById('stars');
+        
+        // Static twinkle stars
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.className = 'star-dot';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 60 + '%';
+            star.style.animationDelay = Math.random() * 4 + 's';
+            starsContainer.appendChild(star);
+        }
+        
+        // Shooting stars
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 40 + '%';
+            starsContainer.appendChild(star);
+            setTimeout(() => star.remove(), 1200);
+        }
+        
+        setInterval(createShootingStar, 2500);
+        
+        // Scroll reveal observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        
+        // Initial visibility for hero
+        setTimeout(() => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight) {
+                    el.classList.add('visible');
+                }
+            });
+        }, 100);
+    </script>
+</body>
+</html>
